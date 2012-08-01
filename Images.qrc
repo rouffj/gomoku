@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>gomoku_icon.ico</file>
+        <file>splash.jpg</file>
+    </qresource>
+</RCC>
