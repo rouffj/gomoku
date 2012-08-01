@@ -1,0 +1,4 @@
+Gomoku
+======
+
+Projet Epitech
