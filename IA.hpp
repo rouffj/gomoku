@@ -3,17 +3,15 @@
 
 #include "IPlayer.hpp"
 #include "GameStep.hpp"
+#include "DebugAI.h"
 
 #define INFINITY 1000000
 
 class AI : public IPlayer
 {
 public:
-    AI(Rules& rules);
-    virtual ~AI()
-    {
-        std::cout << "AI destruction" << std::endl;
-    }
+    AI(Rules& rules, bool aiDebug);
+    virtual ~AI();
 
     bool play(Game& game, bool (Game::*)(Coord&));
 
@@ -32,6 +30,7 @@ private:
     int minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha, int beta);
 
 private:
+    DebugAI* _debugView;
     Coord* _toPlay;
     int _color;
     int _nbStone;

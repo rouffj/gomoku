@@ -16,7 +16,8 @@ BoardView::BoardView(QWidget*&) :
 {
     QSize viewSize = this->size();
     this->setRenderHint(QPainter::Antialiasing, true);
-    this->_smallestSide = (viewSize.width() > viewSize.height()) ? viewSize.height() - this->_marge : viewSize.width() - this->_marge;
+   // this->_smallestSide = (viewSize.width() > viewSize.height()) ? viewSize.height() - this->_marge : viewSize.width() - this->_marge;
+    this->_smallestSide = 480;
     this->_scene.setSceneRect(0, 0, this->_smallestSide, this->_smallestSide);
     this->setScene(&this->_scene);
 }
@@ -43,6 +44,7 @@ void BoardView::draw()
         this->_scene.clear();
         this->drawGrid();
         this->drawStones();
+        this->drawBackground(new QPainter(), this->rect());
     }
 }
 

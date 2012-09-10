@@ -64,6 +64,8 @@ void Game::run()
                 std::stringstream timeStream;
                 timeStream << "Propagation time : ";
                 time.restart();
+                if (this->_window->isClosed())
+                    break;
                 this->_board->addStone(this->_board->getLastPlayed(), this->_players[this->_turn % 2]->getColor());
                 this->_referee.doTakings(*this->_board, this->_players, this->_turn);
                 this->_window->getBoardView().draw();
@@ -82,15 +84,12 @@ void Game::run()
             }
             this->_refreshInfos();
             this->_app.processEvents();
-            if (this->_window->isClosed())
-                break;  
         }
     }
 }
 
 bool Game::played(Coord& coord)
 {
-    std::cout << "Playing: " << coord.x << "/" << coord.y << std::endl;
     if (!this->_referee.isValidMove(*this->_board, coord, this->_players[this->_turn % 2]->getColor()))
     {
         this->_window->getBoardView().doError(coord);
@@ -165,9 +164,9 @@ void Game::restart()
         delete this->_players[0];
     if (this->_players[1])
         delete this->_players[1];
-    this->_players[0] = (this->_options.PvP || (this->_options.PvAi && !this->_options.AiPlayFirst)) ? (IPlayer*) new HumanPlayer(this->_options.rules) : (IPlayer*) new AI(this->_options.rules);
+    this->_players[0] = (this->_options.PvP || (this->_options.PvAi && !this->_options.AiPlayFirst)) ? (IPlayer*) new HumanPlayer(this->_options.rules) : (IPlayer*) new AI(this->_options.rules, this->_options.AiDebug);
     this->_players[0]->setColor(WHITE);
-    this->_players[1] = (this->_options.PvP || (this->_options.PvAi && this->_options.AiPlayFirst)) ? (IPlayer*) new HumanPlayer(this->_options.rules) : (IPlayer*) new AI(this->_options.rules);
+    this->_players[1] = (this->_options.PvP || (this->_options.PvAi && this->_options.AiPlayFirst)) ? (IPlayer*) new HumanPlayer(this->_options.rules) : (IPlayer*) new AI(this->_options.rules, this->_options.AiDebug);
     this->_players[1]->setColor(BLACK);
 }
 

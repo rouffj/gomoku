@@ -19,9 +19,7 @@ signals:
     void startNewGame();
 
 public slots:
-    void checkPvP();
-    void checkPvAI();
-    void checkAIvAI();
+    void setOptions();
     void chooseDifficulty();
     void validation();
     void abort();

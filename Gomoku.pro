@@ -31,7 +31,8 @@ HEADERS += Board.hpp \
     Options.hpp \
     Stone.hpp \
     IA.hpp \
-    GameStep.hpp
+    GameStep.hpp \
+    DebugAI.h
 FORMS += MainWindow.ui \
     GameInfos.ui \
     NewGame.ui

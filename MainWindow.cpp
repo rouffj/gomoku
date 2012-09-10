@@ -19,7 +19,20 @@ MainWindow::MainWindow(Options& options, Game& game, RunCallback run, QWidget* p
     this->_ui->horizontalLayout->addWidget(gb, 100);
     this->_ui->graphicsView->setGameInformationsContainer(gb);
     this->_newGameWindow = new NewGame(this->_options, this);
-    connect(this->_ui->actionNewGame, SIGNAL(activated()), this, SLOT(openNewGameWindow()));
+    connect(this->_ui->actionNewGame, SIGNAL(activated()), this, SLOT(openNewGameWindow()));        
+
+    QPalette palette;
+    palette.setBrush(this->_ui->centralWidget->backgroundRole(), QBrush(QImage("wood.jpg")));
+    this->_ui->centralWidget->setPalette(palette);
+
+    QString mystyle = "QWidget {background-image: url(wood.jpg);}";
+    this->_ui->centralWidget->setStyleSheet(mystyle);
+
+    QPixmap bg(":/images/wood.jpg");
+    QPalette p(this->palette());
+    p.setBrush(QPalette::Background, bg);
+    this->setAutoFillBackground(true);
+    this->setPalette(p);
 }
 
 MainWindow::~MainWindow()

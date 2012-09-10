@@ -16,9 +16,10 @@ typedef struct s_Rules
 typedef struct s_Options
 {
     s_Options() :
-        PvP(true),
+        PvP(false),
         PvAi(false),
         AivAi(false),
+        AiDebug(false),
         Difficulty(0),
         AiPlayFirst(false) { }
 
@@ -28,6 +29,7 @@ typedef struct s_Options
                   << "PvP " << this->PvP << std::endl
                   << "PvAi " << this->PvAi << std::endl
                   << "AivAi " << this->AivAi << std::endl
+                  << "AiDebug " << this->AiDebug << std::endl
                   << "Difficulty " << this->Difficulty << std::endl
                   << "Ai play first " << this->AiPlayFirst << std::endl
                   << "Double three " << this->rules.DoubleThree << std::endl
@@ -38,6 +40,7 @@ typedef struct s_Options
     bool PvP;
     bool PvAi;
     bool AivAi;
+    bool AiDebug;
     int Difficulty;
     bool AiPlayFirst;
     Rules rules;

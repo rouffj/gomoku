@@ -69,12 +69,12 @@ inline std::ostream& operator << (std::ostream& o, Board const & board)
     {
         for (unsigned int j = 0; j < board._size; j++)
         {
-            if (BoardCell::matchMask(board._board[i][j], WHITE))
-                std::cout << "1";
-            else if (BoardCell::matchMask(board._board[i][j], BLACK))
-                std::cout << "2";
+            if (BoardCell::matchMask(board._board[j][i], WHITE))
+                std::cout << " 1";
+            else if (BoardCell::matchMask(board._board[j][i], BLACK))
+                std::cout << " 2";
             else
-                std::cout << "0";
+                std::cout << " 0";
         }
         std::cout << std::endl;
     }

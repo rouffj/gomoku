@@ -2,5 +2,7 @@
     <qresource prefix="/images">
         <file>gomoku_icon.ico</file>
         <file>splash.jpg</file>
+        <file>icon.png</file>
+        <file>wood.jpg</file>
     </qresource>
 </RCC>
