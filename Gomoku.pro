@@ -3,6 +3,10 @@
 # -------------------------------------------------
 QT += svg \
     testlib
+QMAKE_CXXFLAGS += -pg
+#QMAKE_CXXFLAGS_RELEASE += -pg
+QMAKE_LFLAGS += -pg
+
 TARGET = Gomoku
 TEMPLATE = app
 SOURCES += main.cpp \
@@ -32,7 +36,8 @@ HEADERS += Board.hpp \
     Stone.hpp \
     IA.hpp \
     GameStep.hpp \
-    DebugAI.h
+    DebugAI.h \
+    Pow.h
 FORMS += MainWindow.ui \
     GameInfos.ui \
     NewGame.ui

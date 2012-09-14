@@ -84,6 +84,8 @@ void Game::run()
             }
             this->_refreshInfos();
             this->_app.processEvents();
+            if (this->_window->isClosed())
+                break;
         }
     }
 }

@@ -29,7 +29,7 @@ public:
     {
         this->_minimaxView->setBoard(board);
         this->_minimaxView->draw();
-        usleep(100000);
+        //usleep(2000000);
     }
 };
 

@@ -17,11 +17,32 @@ GameStep::~GameStep()
         delete *it;
 }
 
-int GameStep::pow(int nb, int exp)
+int         GameStep::powa(int a, int b)
 {
-    if (exp == 0)
+    if (b == 0)
         return 1;
-    return nb * this->pow(nb, exp - 1);
+    return a * powa(a, b - 1);
+}
+
+int**       GameStep::initPow(int a, int b)
+{
+    int**     values = new int*[a];
+    for (int i = 0; i < a; ++i)
+    {
+        values[i] = new int[a];
+        for (int j = 0; j < b; ++j)
+        {
+            int tmp = powa(i, j);
+            values[i][j] = tmp;
+        }
+    }
+    return values;
+}
+
+int GameStep::pow(int nb, int exp)
+{    
+    static int**   values = initPow(SCORE_ALIGN4 * 2, LEFT + 1);
+    return values[nb][exp];
 }
 
 int GameStep::evaluate(int color)

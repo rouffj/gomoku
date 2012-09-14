@@ -92,10 +92,12 @@ int AI::minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha,
     while (nextStep != 0)
     {
         int score = this->minimax(game, nextStep, color, depth - 1, alpha, beta);
-
+/*
         std::cout << "SCore is " << score << " at depth " << depth -1 << " maxSCore " << maxScore
                     << " alpha " << alpha << " beta " << beta << " x=" << nextStep->getPlayed()->x
-                    << " y=" << nextStep->getPlayed()->y << std::endl;
+                    << " y=" << nextStep->getPlayed()->y << std::endl;*/
+        if (nextStep->getNbStone(BLACK) || nextStep->getNbStone(WHITE))
+        std::cout << "\033[31m BStones " << nextStep->getNbStone(BLACK) << " WStones " << nextStep->getNbStone(WHITE) <<  "\033[0m\n";
         if (nextStep->getPlayingColor() == color)
         {
             if (score > maxScore)
@@ -136,13 +138,15 @@ bool AI::isWinningPlayer(GameStep& gamestep)
 
 bool AI::isWinning(Board& board)
 {
+    static uint64_t nonEmptyMask = BLACK|WHITE;
     for (unsigned int i = 0; i < board.getSize(); i++)
     {
         for (unsigned int j = 0; j < board.getSize(); j++)
         {
             Coord c(i, j);
-            if (this->isWinningMove(board, c))
-                return true;
+            if ((*board.getCell(c))&nonEmptyMask)
+                if (this->isWinningMove(board, c))
+                    return true;
         }
     }
     return false;
@@ -152,12 +156,14 @@ bool AI::isWinningMove(Board & board, Coord& coord)
 {
     for (int direction = TOPLEFT; direction < BOTTOMRIGHT; direction++)
     {
-        int leftSize = 0;
-        int rightSize = 0;
-        if (BoardCell::matchMask(*board.getCell(coord.x, coord.y), BoardCell::getAlignmentColor(*board.getCell(coord.x, coord.y), direction)))
-            leftSize = BoardCell::getAlignmentSize(*board.getCell(coord.x, coord.y), direction);
-        if (BoardCell::matchMask(*board.getCell(coord.x, coord.y), BoardCell::getAlignmentColor(*board.getCell(coord.x, coord.y), board.getOppositeDirection(direction))))
-            rightSize = BoardCell::getAlignmentSize(*board.getCell(coord.x, coord.y), board.getOppositeDirection(direction));
+        int         leftSize = 0;
+        int         rightSize = 0;
+        uint64_t*   cell = board.getCell(coord.x, coord.y);
+
+        if (BoardCell::matchMask(*cell, BoardCell::getAlignmentColor(*cell, direction)))
+            leftSize = BoardCell::getAlignmentSize(*cell, direction);
+        if (BoardCell::matchMask(*cell, BoardCell::getAlignmentColor(*cell, board.getOppositeDirection(direction))))
+            rightSize = BoardCell::getAlignmentSize(*cell, board.getOppositeDirection(direction));
         if (leftSize + rightSize + 1 >= 5)
         {
             if (!this->_rules.EndGameTaking)

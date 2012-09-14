@@ -34,7 +34,6 @@ public:
             return EMPTY;
     }
 
-
     static int getAlignmentColor(uint64_t value, int direction)
     {
         return (((value >> (5 * direction + 6)) & 1) == 0) ? WHITE : BLACK;
