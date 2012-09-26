@@ -70,6 +70,8 @@ void BoardView::drawGrid()
 
 void BoardView::drawStones()
 {
+    static QPixmap*      bstone = new QPixmap(":/images/blackstone.gif");
+    static QPixmap*      wstone = new QPixmap(":/images/wwstone.gif");
     if (this->_board != 0)
     {
         Coord* lastCoord = 0;
@@ -97,27 +99,46 @@ void BoardView::drawStones()
                     }
                     if (!lastCoord || lastCoord->x != c.x || lastCoord->y != c.y)
                     {
-                        this->_scene.addEllipse(c.x, c.y,
-                                                this->_lineSpacing - this->_lineSpacing / 6,
-                                                this->_lineSpacing - this->_lineSpacing / 6,
-                                                QPen(Qt::black), brush);
+                        QGraphicsPixmapItem* item;
+                        double               width;
+                        if (brush.color() == Qt::black)
+                        {
+                            item = this->_scene.addPixmap(*bstone);
+                            width = bstone->width();
+                        }
+                        else
+                        {
+                            item = this->_scene.addPixmap(*wstone);
+                            width = wstone->width();
+                        }
+                        item->setPos(c.x, c.y);
+                        item->setScale(this->_lineSpacing/width);
                     }
                 }
             }
         }
         if (lastCoord)
         {
-            unsigned int size = this->_lineSpacing - this->_lineSpacing / 6;
-            QRect startRect(lastCoord->x + 4, lastCoord->y + 4, size - 8, size - 8);
-            QRect endRect(lastCoord->x, lastCoord->y, size, size);
             Stone* stone = new Stone();
-            stone->setBrush(lastBrush);
-            stone->setPen(QPen(Qt::black));
+            double width;
+
+            if (lastBrush.color() == Qt::black)
+            {
+                stone->setPixmap(*bstone);
+                width = bstone->width();
+            }
+            else
+            {
+                stone->setPixmap(*wstone);
+                width = wstone->width();
+            }
+            stone->initScaleAndOffset(lastCoord->x, lastCoord->y,
+                                      this->_lineSpacing/width, this->_lineSpacing/2);
             this->_scene.addItem(stone);
-            QPropertyAnimation* animation = new QPropertyAnimation(stone, "rect");
+            QPropertyAnimation* animation = new QPropertyAnimation(stone, "scale");
             animation->setDuration(200);
-            animation->setStartValue(startRect);
-            animation->setEndValue(endRect);
+            animation->setStartValue(0.0);
+            animation->setEndValue(this->_lineSpacing/width);
             animation->setEasingCurve(QEasingCurve::OutBounce);
             animation->start();
             delete lastCoord;
@@ -129,9 +150,35 @@ void BoardView::drawStones()
 
 void BoardView::doError(Coord& lastCoord)
 {
+    /*
+    Stone* stone = new Stone();
+    double width;
+
+    if (lastBrush.color() == Qt::black)
+    {
+        stone->setPixmap(*bstone);
+        width = bstone->width();
+    }
+    else
+    {
+        stone->setPixmap(*wstone);
+        width = wstone->width();
+    }
+    stone->setPos(lastCoord->x, lastCoord->y);
+    stone->setOpacity(0.1);
+    item->setScale(this->_lineSpacing/width);
+    this->_scene.addItem(stone);
+    QPropertyAnimation* animation = new QPropertyAnimation(stone, "opacity");
+    animation->setDuration(200);
+    animation->setStartValue(0.3);
+    animation->setEndValue(0.0);
+    animation->setEasingCurve(QEasingCurve::OutBounce);
+    animation->start();
+    delete lastCoord;*/
+
     lastCoord = this->getCoord(lastCoord.x, lastCoord.y);
     unsigned int size = this->_lineSpacing - this->_lineSpacing / 6;
-    Stone* stone = new Stone();
+    ErrorStone* stone = new ErrorStone();
     stone->setRect(lastCoord.x, lastCoord.y, size, size);
     stone->setBrush(QBrush(Qt::red));
     stone->setPen(QPen(Qt::black));
@@ -213,7 +260,7 @@ std::string BoardView::_displayDirectionsInfos(Coord const & c, int direction)
 
 void BoardView::mouseMoveEvent(QMouseEvent* e)
 {
-    if (this->_gameInformations != 0)
+    if (this->_gameInformations != 0 && this->_board != 0)
     {
         Coord c = this->getCell(*e);
         if (c.x < this->_board->getSize() && c.y < this->_board->getSize())

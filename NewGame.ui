@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>250</width>
     <height>300</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
+    <width>250</width>
     <height>300</height>
    </size>
   </property>
@@ -32,8 +32,19 @@
    <string>Create Game</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Images.qrc">
+   <iconset>
     <normaloff>:/images/gomoku_icon.ico</normaloff>:/images/gomoku_icon.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog
+{
+	background-image: url(:/images/wood.jpg);
+}
+*
+{
+	color : white; font-size: 11px;
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -44,6 +55,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QComboBox" name="comboGameType">
+        <property name="styleSheet">
+         <string notr="true">color : white; font-size: 11px;</string>
+        </property>
         <item>
          <property name="text">
           <string>Player vs Player</string>
@@ -66,6 +80,9 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <item>
          <property name="text">
           <string>Easy</string>
@@ -84,27 +101,73 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkFirstPlayer">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>A.I. play first</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QCheckBox" name="checkFirstPlayer">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>21</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color : white; font-size: 11px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="firstPlayerLabel">
+          <property name="styleSheet">
+           <string notr="true">color: grey;</string>
+          </property>
+          <property name="text">
+           <string>A.I. play first</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="minimaxDebug">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>MiniMax debug</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QCheckBox" name="minimaxDebug">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>21</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QCheckBox { color: red }</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="debugLabel">
+          <property name="styleSheet">
+           <string notr="true">color: grey;</string>
+          </property>
+          <property name="text">
+           <string>MiniMax debug</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -116,24 +179,67 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QCheckBox" name="checkDoubleThree">
-        <property name="text">
-         <string>Double three enabled</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="checkDoubleThree">
+          <property name="maximumSize">
+           <size>
+            <width>21</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="doubleThreeLabel">
+          <property name="text">
+           <string>Double three enabled</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkEndGameTaking">
-        <property name="text">
-         <string>End game taking enabled</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="checkEndGameTaking">
+          <property name="maximumSize">
+           <size>
+            <width>21</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color : white; font-size: 11px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="endGameLabel">
+          <property name="text">
+           <string>End game taking enabled</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">color: black;</string>
+     </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
@@ -141,8 +247,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="Images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

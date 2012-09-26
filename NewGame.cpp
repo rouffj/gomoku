@@ -24,9 +24,20 @@ NewGame::~NewGame()
 
 void NewGame::setOptions()
 {
-    this->_ui.checkFirstPlayer->setEnabled(this->_ui.comboGameType->currentIndex() > 0);
-    this->_ui.comboDificulty->setEnabled(this->_ui.comboGameType->currentIndex() > 0);
-    this->_ui.minimaxDebug->setEnabled(this->_ui.comboGameType->currentIndex() > 0);
+    bool    ai_in_game = this->_ui.comboGameType->currentIndex() > 0;
+    this->_ui.checkFirstPlayer->setEnabled(ai_in_game);
+    this->_ui.comboDificulty->setEnabled(ai_in_game);
+    this->_ui.minimaxDebug->setEnabled(ai_in_game);
+    if (ai_in_game)
+    {
+        this->_ui.firstPlayerLabel->setStyleSheet("color: white;");
+        this->_ui.debugLabel->setStyleSheet("color: white;");
+    }
+    else
+    {
+        this->_ui.firstPlayerLabel->setStyleSheet("color: grey;");
+        this->_ui.debugLabel->setStyleSheet("color: grey;");
+    }
 }
 
 void NewGame::chooseDifficulty()

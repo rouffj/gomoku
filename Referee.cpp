@@ -100,15 +100,17 @@ void Referee::doTakings(Board& board, IPlayer** players, unsigned int turn)
     }
 }
 
-bool Referee::isWinning(Board & board)
+bool Referee::isWinning(Board& board)
 {
+    static uint64_t nonEmptyMask = BLACK|WHITE;
     for (unsigned int i = 0; i < board.getSize(); i++)
     {
         for (unsigned int j = 0; j < board.getSize(); j++)
         {
             Coord c(i, j);
-            if (this->isWinningMove(board, c))
-                return true;
+            if ((*board.getCell(c))&nonEmptyMask)
+                if (this->isWinningMove(board, c))
+                    return true;
         }
     }
     return false;
@@ -118,12 +120,14 @@ bool Referee::isWinningMove(Board & board, Coord& coord)
 {
     for (int direction = TOPLEFT; direction < BOTTOMRIGHT; direction++)
     {
-        int leftSize = 0;
-        int rightSize = 0;
-        if (BoardCell::matchMask(*board.getCell(coord.x, coord.y), BoardCell::getAlignmentColor(*board.getCell(coord.x, coord.y), direction)))
-            leftSize = BoardCell::getAlignmentSize(*board.getCell(coord.x, coord.y), direction);
-        if (BoardCell::matchMask(*board.getCell(coord.x, coord.y), BoardCell::getAlignmentColor(*board.getCell(coord.x, coord.y), board.getOppositeDirection(direction))))
-            rightSize = BoardCell::getAlignmentSize(*board.getCell(coord.x, coord.y), board.getOppositeDirection(direction));
+        int         leftSize = 0;
+        int         rightSize = 0;
+        uint64_t*   cell = board.getCell(coord.x, coord.y);
+
+        if (BoardCell::matchMask(*cell, BoardCell::getAlignmentColor(*cell, direction)))
+            leftSize = BoardCell::getAlignmentSize(*cell, direction);
+        if (BoardCell::matchMask(*cell, BoardCell::getAlignmentColor(*cell, board.getOppositeDirection(direction))))
+            rightSize = BoardCell::getAlignmentSize(*cell, board.getOppositeDirection(direction));
         if (leftSize + rightSize + 1 >= 5)
         {
             if (!this->_rules.EndGameTaking)

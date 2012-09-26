@@ -491,13 +491,6 @@ None
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="difficultyLabel">
-        <property name="text">
-         <string>Difficulty : N/A</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="turnLabel">
         <property name="text">
          <string>Turn : N/A</string>
@@ -505,30 +498,78 @@ None
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="doubleThreeLabel">
-        <property name="text">
-         <string>Double three opt. : N/A</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="doubleThreeBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>21</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="mouseTracking">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color : white; font-size: 11px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="doubleThreeLabel">
+          <property name="text">
+           <string>Double three rule</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QLabel" name="endGameTakingLabel">
-        <property name="text">
-         <string>End game taking opt. : N/A</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QCheckBox" name="endGameTakingBox">
+          <property name="maximumSize">
+           <size>
+            <width>21</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="mouseTracking">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="endGameTakingLabel">
+          <property name="text">
+           <string>End game taking rule</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QLabel" name="playerOneLabel">
+       <widget class="QLabel" name="difficultyLabel">
         <property name="text">
-         <string>Player 1 : N/A</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="playerTwoLabel">
-        <property name="text">
-         <string>Player 2 : N/A</string>
+         <string>Difficulty : N/A</string>
         </property>
        </widget>
       </item>

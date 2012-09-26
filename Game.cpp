@@ -46,6 +46,7 @@ void Game::run()
         this->restart();
         this->_options.toString();
         QTime time;
+        this->_refreshInfos();
         while (42)
         {
             if (!this->_endGame)
@@ -175,40 +176,47 @@ void Game::restart()
 void Game::_refreshInfos()
 {
     GameInformations& gi = this->_window->getBoardView().getGameInfos();
-    std::ostringstream turn;
-    turn << "Turn : " << this->_turn + 1;
-    gi._ui.turnLabel->setText(turn.str().c_str());
+    std::ostringstream  turn;
+    std::stringstream   firstLine;
+    std::stringstream   secondLine;
     if (this->_options.PvP)
     {
-        gi._ui.playerOneLabel->setText("Player 1 : Human (white)");
-        gi._ui.playerTwoLabel->setText("Player 2 : Human (black)");
+        firstLine << "Player 1 : Human (white) - ";
+        secondLine << "Player 2 : Human (black) - ";
     }
     else if (this->_options.PvAi)
     {
         if (this->_options.AiPlayFirst)
         {
-            gi._ui.playerOneLabel->setText("Player 1 : A.I. (white)");
-            gi._ui.playerTwoLabel->setText("Player 2 : Human (black)");
+            firstLine << "P1 : A.I. (white) - ";
+            secondLine << "P2 : Human (black) - ";
         }
         else
         {
-            gi._ui.playerOneLabel->setText("Player 1 : Human (white)");
-            gi._ui.playerTwoLabel->setText("Player 2 : A.I. (black)");
+            firstLine << "P1 : Human (white) - ";
+            secondLine << "P2 : A.I. (black) - ";
         }
     }
     else
     {
-        gi._ui.playerOneLabel->setText("Player 1 : A.I. (white)");
-        gi._ui.playerTwoLabel->setText("Player 2 : A.I. (black)");
+        firstLine << "P1 : A.I. (white) - ";
+        secondLine << "P2 : A.I. (black) - ";
     }
     std::stringstream ss1;
-    ss1 <<  gi._ui.playerOneLabel->text().toStdString();
-    ss1 << " - " << this->_players[0]->getStone() << " stones";
-    gi._ui.playerOneLabel->setText(ss1.str().c_str());
-    std::stringstream ss2;
-    ss2 <<  gi._ui.playerTwoLabel->text().toStdString();
-    ss2 << " - " << this->_players[1]->getStone() << " stones";
-    gi._ui.playerTwoLabel->setText(ss2.str().c_str());
+    gi._ui.gameStatusLabel->setFont(QFont("Ubuntu, Calibri", 11, 0, false));
+    firstLine << this->_players[0]->getStone() << " stones<br>";
+    secondLine << this->_players[1]->getStone() << " stones";
+    if (this->_turn % 2 == 0)
+        ss1 << "<span style='font-weight: bold;'>" << firstLine.str().c_str() << "</span><span style='font-weight: normal;'>"
+            << secondLine.str().c_str() << "</span>";
+    else
+        ss1 << "<span style='font-weight: normal;'>" << firstLine.str().c_str() << "</span><span style='font-weight: bold;'>"
+            << secondLine.str().c_str() << "</span>";
+    gi._ui.gameStatusLabel->setText(ss1.str().c_str());
+
+
+    turn << "Turn : " << this->_turn + 1;
+    gi._ui.turnLabel->setText(turn.str().c_str());
     if (this->_options.PvAi || this->_options.AivAi)
     {
         if (this->_options.Difficulty == 0)
@@ -218,22 +226,7 @@ void Game::_refreshInfos()
         else
             gi._ui.difficultyLabel->setText("Difficulty : Hard");
     }
-    if (this->_options.rules.DoubleThree)
-        gi._ui.doubleThreeLabel->setText("Doubre three opt. : on");
-    else
-        gi._ui.doubleThreeLabel->setText("Doubre three opt. : off");
-    if (this->_options.rules.EndGameTaking)
-        gi._ui.endGameTakingLabel->setText("End game taking opt. : on");
-    else
-        gi._ui.endGameTakingLabel->setText("End game taking opt. : off");
-    if (this->_turn % 2 == 0)
-    {
-        gi._ui.playerOneLabel->setFont(QFont("Ubuntu, Calibri", 11, 600, false));
-        gi._ui.playerTwoLabel->setFont(QFont("Ubuntu, Calibri", 11, 0, false));
-    }
-    else
-    {
-        gi._ui.playerOneLabel->setFont(QFont("Ubuntu, Calibri", 11, 0, false));
-        gi._ui.playerTwoLabel->setFont(QFont("Ubuntu, Calibri", 11, 600, false));
-    }
+
+    gi._ui.doubleThreeBox->setChecked(this->_options.rules.DoubleThree);
+    gi._ui.endGameTakingBox->setChecked(this->_options.rules.EndGameTaking);
 }

@@ -1,8 +1,10 @@
 <RCC>
     <qresource prefix="/images">
-        <file>gomoku_icon.ico</file>
         <file>splash.jpg</file>
         <file>icon.png</file>
         <file>wood.jpg</file>
+        <file>blackstone.gif</file>
+        <file>whitestone.gif</file>
+        <file>wwstone.gif</file>
     </qresource>
 </RCC>
