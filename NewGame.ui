@@ -56,7 +56,7 @@
       <item>
        <widget class="QComboBox" name="comboGameType">
         <property name="styleSheet">
-         <string notr="true">color : white; font-size: 11px;</string>
+         <string notr="true">color : black; font-size: 11px;</string>
         </property>
         <item>
          <property name="text">
@@ -81,7 +81,7 @@
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">color : black; font-size: 11px;</string>
         </property>
         <item>
          <property name="text">

@@ -189,7 +189,7 @@ uint64_t* Board::getCell(Coord& coord)
     return this->getCell(coord.x, coord.y);
 }
 
-inline uint64_t* Board::getCell(unsigned int x, unsigned int y)
+uint64_t* Board::getCell(unsigned int x, unsigned int y)
 {
     //assert(x < this->_size && y < this->_size);
     return &this->_board[x][y];

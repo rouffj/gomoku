@@ -27,6 +27,7 @@ int         GameStep::powa(int a, int b)
 int**       GameStep::initPow(int a, int b)
 {
     int**     values = new int*[a];
+
     for (int i = 0; i < a; ++i)
     {
         values[i] = new int[a];
@@ -39,7 +40,7 @@ int**       GameStep::initPow(int a, int b)
     return values;
 }
 
-int GameStep::pow(int nb, int exp)
+inline int GameStep::pow(int nb, int exp)
 {    
     static int**   values = initPow(SCORE_ALIGN4 * 2, LEFT + 1);
     return values[nb][exp];
