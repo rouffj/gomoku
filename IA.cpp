@@ -8,7 +8,7 @@ AI::AI(Rules& rules, bool aiDebug) : _debugView(NULL), _toPlay(0), _color(0), _n
     srand(time(NULL));
     std::cout << "AI construction" << std::endl;
     this->_debugView = new DebugAI(aiDebug, true, 200000);
-    this->_debugToPlay = new DebugAI(true, false, 0);
+    this->_debugToPlay = new DebugAI(false, false, 0);
 }
 
 AI::~AI()
@@ -105,7 +105,7 @@ int AI::minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha,
                 if (this->_toPlay != 0)
                     delete this->_toPlay;
                 this->_toPlay = nextStep->getPlayed();
-                this->_debugToPlay->displayBoard(&nextStep->getBoard());
+                //this->_debugToPlay->displayBoard(&nextStep->getBoard());
                 if (maxScore > alpha)
                     alpha = maxScore;
                 if (maxScore > beta)
@@ -119,7 +119,7 @@ int AI::minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha,
                 maxScore = score;
                 if (this->_toPlay != 0)
                     delete this->_toPlay;
-                this->_debugToPlay->displayBoard(&nextStep->getBoard());
+                //this->_debugToPlay->displayBoard(&nextStep->getBoard());
                 this->_toPlay = nextStep->getPlayed();
                 if (maxScore < beta)
                     beta = maxScore;
