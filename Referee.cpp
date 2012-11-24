@@ -144,28 +144,30 @@ bool Referee::isAlignTakable(Board& board, Coord& coord, int direction, int left
     if (BoardCell::isTakable(board, coord))
         return true;
     Coord curCoord = board.getNextCell(&coord, direction);
-    int i = 0;
-    while (i < left && board.isValid(curCoord))
+    int ileft = 0;
+    while (ileft < left && board.isValid(curCoord))
     {
         if (BoardCell::isTakable(board, curCoord))
-            return true;
+            break;
         curCoord = board.getNextCell(&curCoord, direction);
-        i++;
+        ileft++;
     }
     int oppositeDirection = (direction + 4) % 8;
     curCoord = board.getNextCell(&coord, oppositeDirection);
-    i = 0;
-    while (i < right && board.isValid(curCoord))
+    int iright = 0;
+    while (iright < right && board.isValid(curCoord))
     {
         if (BoardCell::isTakable(board, curCoord))
-            return true;
+            break;
         curCoord = board.getNextCell(&curCoord, oppositeDirection);
-        i++;
+        iright++;
     }
-    return false;
+    if (iright + ileft >= 4)
+        return false;
+    return true;
 }
 
 bool Referee::isWinningPlayer(IPlayer** players)
 {
-    return (players[0]->getStone() == 10 || players[1]->getStone() == 10);
+    return (players[0]->getStone() >= 10 || players[1]->getStone() >= 10);
 }

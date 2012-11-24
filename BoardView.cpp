@@ -18,6 +18,7 @@ BoardView::BoardView(QWidget*&) :
     this->setRenderHint(QPainter::Antialiasing, true);
    // this->_smallestSide = (viewSize.width() > viewSize.height()) ? viewSize.height() - this->_marge : viewSize.width() - this->_marge;
     this->_smallestSide = 480;
+    this->_lineSpacing = 1;
     this->_scene.setSceneRect(0, 0, this->_smallestSide, this->_smallestSide);
     this->setScene(&this->_scene);
 }
@@ -229,7 +230,7 @@ void BoardView::resizeEvent(QResizeEvent*)
 
 void BoardView::mousePressEvent(QMouseEvent* e)
 {
-    if (e->button() == Qt::LeftButton)
+    if (e->button() == Qt::LeftButton && this->_board)
     {
         Coord c = this->getCell(*e);
         if (c.x < this->_board->getSize() && c.y < this->_board->getSize())

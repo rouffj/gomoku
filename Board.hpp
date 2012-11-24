@@ -35,6 +35,23 @@ public:
     int getOppositeDirection(int direction);
     Coord getNextCell(Coord* from, int direction);
 
+
+    static inline int  getNbStones(Board const & board)
+    {
+        int     total = 0;
+
+        for (unsigned int i = 0; i < board._size; i++)
+        {
+            for (unsigned int j = 0; j < board._size; j++)
+            {
+                if (BoardCell::matchMask(board._board[j][i], WHITE)
+                        || BoardCell::matchMask(board._board[j][i], BLACK))
+                    ++total;
+            }
+        }
+        return total;
+    }
+
     static std::map<int, Coord*> createDirectionMap()
     {
         std::map<int, Coord*> map;

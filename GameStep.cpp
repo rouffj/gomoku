@@ -96,8 +96,10 @@ int GameStep::evaluate(int color)
             score += this->pow(SCORE_ALIGN3, nbAlign3);
             score += this->pow(SCORE_ALIGN4, nbAlign4);
             score -= this->pow(SCORE_ALIGN2, nbAlign2Adv);
-            score -= this->pow(SCORE_ALIGN3 + SCORE_ALIGN3 / 2, nbAlign3Adv);
-            score -= this->pow(SCORE_ALIGN4 + SCORE_ALIGN4 / 2, nbAlign4Adv);
+            score -= this->pow(SCORE_ALIGN3, nbAlign3Adv);
+            score -= this->pow(SCORE_ALIGN4, nbAlign4Adv);
+            //score -= this->pow(SCORE_ALIGN3 + SCORE_ALIGN3 / 2, nbAlign3Adv);
+            //score -= this->pow(SCORE_ALIGN4 + SCORE_ALIGN4 / 2, nbAlign4Adv);
         }
     }
     return (score);

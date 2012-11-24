@@ -31,6 +31,7 @@ private:
 
 private:
     DebugAI* _debugView;
+    DebugAI* _debugToPlay;
     Coord* _toPlay;
     int _color;
     int _nbStone;

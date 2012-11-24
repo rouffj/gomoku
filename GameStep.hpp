@@ -74,7 +74,7 @@ private:
     int _playingColor;
     Coord _played;
     int _evaluationValue;
-    int _nbStones[2];
+    int _nbStones[2];    // These two vars are for the number of eaten stones
     std::list<GameStep*> _nextSteps;
 };
 

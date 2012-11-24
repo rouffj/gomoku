@@ -7,30 +7,36 @@ AI::AI(Rules& rules, bool aiDebug) : _debugView(NULL), _toPlay(0), _color(0), _n
 {
     srand(time(NULL));
     std::cout << "AI construction" << std::endl;
-    if (aiDebug)
-        this->_debugView = new DebugAI();
+    this->_debugView = new DebugAI(aiDebug, true, 200000);
+    this->_debugToPlay = new DebugAI(true, false, 0);
 }
 
 AI::~AI()
 {
     std::cout << "AI destruction" << std::endl;
-    if (this->_debugView != NULL)
-        delete this->_debugView;
+    delete this->_debugView;
+    delete this->_debugToPlay;
 }
 
 bool AI::play(Game& game, bool (Game::*callback)(Coord&))
 {
     std::cout << "AI playing" << std::endl;
+    this->_debugView->resetCnt();
+    int nbStones = Board::getNbStones(game.getBoard());
 
     QTime timer;
     timer.start();
     GameStep* firstStep = new GameStep(game.getBoard(), (this->_color == WHITE) ? BLACK : WHITE, Coord(0, 0));
     firstStep->addStone(game.getPlayer(0)->getColor(), game.getPlayer(0)->getStone());
     firstStep->addStone(game.getPlayer(1)->getColor(), game.getPlayer(1)->getStone());
+    this->_debugToPlay->_maxEverScore = -INFINITY;
+    this->_debugToPlay->_minEverScore = INFINITY;
     int score = this->minimax(game, firstStep, this->_color, (game.getOptions().Difficulty + 1), -INFINITY, INFINITY);
     if (this->_toPlay == 0)
         this->_toPlay = new Coord(rand() % game.getBoard().getSize(), rand() % game.getBoard().getSize());
     std::cout << "playing in " << this->_toPlay->x << "/" << this->_toPlay->y << " with a score of " << score << " in " << timer.elapsed() << " ms" << std::endl;
+    std::cout << "Minimax iterations : " << this->_debugView->getCnt() << ", nbr of sets : " << this->_debugView->addPerfMeasure(timer.elapsed(), nbStones) <<  std::endl;
+    std::cout << "Max ever Score = " << this->_debugToPlay->_maxEverScore << ", Min ever score = " << this->_debugToPlay->_minEverScore << std::endl;
     game.getBoard().setLastPlayed(this->_toPlay);
     this->_toPlay = 0;
     delete firstStep;
@@ -63,7 +69,8 @@ int AI::max(int a, int b)
 int AI::minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha, int beta)
 {
     game.catchEvents();
-    if (this->_debugView != NULL)
+    this->_debugView->incCnt();
+    if (this->_debugView->hasDebugWindow())
         this->_debugView->displayBoard(&gamestep->getBoard());
     int maxScore = (gamestep->getPlayingColor() == color) ? INFINITY : -INFINITY;
     // Fin de partie ?
@@ -72,16 +79,9 @@ int AI::minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha,
         if (this->_toPlay != 0)
             delete this->_toPlay;
         this->_toPlay = gamestep->getPlayed();
+        std::cout << "One winning at " << this->_toPlay->x << ":" << this->_toPlay->y << std::endl;
         return maxScore;
     }
-    if (this->isWinningPlayer(*gamestep))
-    {
-        if (this->_toPlay != 0)
-            delete this->_toPlay;
-        this->_toPlay = gamestep->getPlayed();
-        return maxScore;
-    }
-
     // Feuille de la recursion
     if (depth == 0)
         return gamestep->evaluate(color);
@@ -94,16 +94,18 @@ int AI::minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha,
 /*      std::cout << "SCore is " << score << " at depth " << depth -1 << " maxSCore " << maxScore
                     << " alpha " << alpha << " beta " << beta << " x=" << nextStep->getPlayed()->x
                     << " y=" << nextStep->getPlayed()->y << std::endl;*/
-        if (nextStep->getNbStone(BLACK) || nextStep->getNbStone(WHITE))
-        std::cout << "\033[31m BStones " << nextStep->getNbStone(BLACK) << " WStones " << nextStep->getNbStone(WHITE) <<  "\033[0m\n";
         if (nextStep->getPlayingColor() == color)
         {
             if (score > maxScore)
             {
+                /*
+                std::cout << "New maxscore = " << score << ", old was " << maxScore
+                          << " at depth " << depth << " for color " << color << std::endl;*/
                 maxScore = score;
                 if (this->_toPlay != 0)
                     delete this->_toPlay;
                 this->_toPlay = nextStep->getPlayed();
+                this->_debugToPlay->displayBoard(&nextStep->getBoard());
                 if (maxScore > alpha)
                     alpha = maxScore;
                 if (maxScore > beta)
@@ -111,10 +113,13 @@ int AI::minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha,
             }
         } else {
             if (score < maxScore)
-            {
+            {/*
+                std::cout << "New minscore = " << score << ", old was " << maxScore
+                          << " at depth " << depth << " for color " << color << std::endl;*/
                 maxScore = score;
                 if (this->_toPlay != 0)
                     delete this->_toPlay;
+                this->_debugToPlay->displayBoard(&nextStep->getBoard());
                 this->_toPlay = nextStep->getPlayed();
                 if (maxScore < beta)
                     beta = maxScore;
