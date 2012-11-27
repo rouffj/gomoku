@@ -41,6 +41,9 @@ bool Referee::isThreeMove(Board& board, Coord& coord, int color, int direction)
     Coord nextCell = board.getNextCell(&coord, direction);
     if (oppositeAlignSize == 0)
     {
+        Coord oppositeCell = board.getNextCell(&coord, oppositeDirection);
+        if (!board.isValid(oppositeCell))
+            return false;
         // .CXX.
         if ((color == BLACK && BoardCell::matchAlignement(*board.getCell(coord), ALIGN_2_OPEN_BLACK, direction))
             || (color == WHITE && BoardCell::matchAlignement(*board.getCell(coord), ALIGN_2_OPEN_WHITE, direction)))

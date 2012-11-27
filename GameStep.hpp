@@ -7,8 +7,9 @@
 #include "Board.hpp"
 
 #define SCORE_ALIGN2 2
+#define SCORE_TAKING 30
 #define SCORE_ALIGN3 7
-#define SCORE_ALIGN4 20
+#define SCORE_ALIGN4 100
 
 /*
 template<int64_t B, int64_t N>
