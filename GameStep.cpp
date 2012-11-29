@@ -75,8 +75,6 @@ int GameStep::evaluate(int color)
             for (int direction = TOPLEFT; direction <= LEFT; direction++)
             {
                 int size = BoardCell::getAlignmentSize(*this->_board.getCell(i, j), direction);
-                if (size > 4)
-                    std::cout << "OMG" << std::endl;
                 if (size > 1 && !BoardCell::isAlignmentClosed(*this->_board.getCell(i, j), direction))
                 {
                     if (size == 2)
@@ -108,19 +106,20 @@ int GameStep::evaluate(int color)
             }
             score += this->pow(SCORE_ALIGN2, nbAlign2);
             score += this->pow(SCORE_ALIGN3, nbAlign3);
-            score += this->pow(SCORE_ALIGN4, nbAlign4);
+            score += this->pow(SCORE_ALIGN4 + SCORE_ALIGN4 / 2, nbAlign4);
             score += SCORE_TAKING * nbPossibleTakings;
             score -= this->pow(SCORE_ALIGN2, nbAlign2Adv);
-            //score -= this->pow(SCORE_ALIGN3, nbAlign3Adv);
-            //score -= this->pow(SCORE_ALIGN4, nbAlign4Adv);
-            score -= SCORE_TAKING * nbPossibleTakingsAdv;/*
+            score -= this->pow(SCORE_ALIGN3, nbAlign3Adv);
+            score -= this->pow(SCORE_ALIGN4, nbAlign4Adv);
+            score -= SCORE_TAKING * nbPossibleTakingsAdv;
+            /*
             if (score > 500 || score < -500)
             {
                 std::cout << "score " << score << " :nb = " << nbPossibleTakings << " & " << nbPossibleTakingsAdv << std::endl;
 
             }*/
-            score -= this->pow(SCORE_ALIGN3 + SCORE_ALIGN3 / 2, nbAlign3Adv);
-            score -= this->pow(SCORE_ALIGN4 + SCORE_ALIGN4 / 2, nbAlign4Adv);
+            //score -= this->pow(SCORE_ALIGN3 + SCORE_ALIGN3 / 2, nbAlign3Adv);
+            //score -= this->pow(SCORE_ALIGN4 + SCORE_ALIGN4 / 2, nbAlign4Adv);
         }
     }
     return (score);

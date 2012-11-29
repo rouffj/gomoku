@@ -29,7 +29,7 @@ bool AI::play(Game& game, bool (Game::*callback)(Coord&))
     firstStep->addStone(game.getPlayer(1)->getColor(), game.getPlayer(1)->getStone());
     int score = this->minimax(game, firstStep, this->_color, (game.getOptions().Difficulty + 1), -INFINITY, INFINITY);
     if (this->_toPlay == 0)
-        this->_toPlay = new Coord(rand() % game.getBoard().getSize(), rand() % game.getBoard().getSize());
+        this->_toPlay = new Coord((rand() % (game.getBoard().getSize() - 2)) + 1, (rand() % (game.getBoard().getSize() - 2)) + 1);
     std::cout << "playing in " << this->_toPlay->x << "/" << this->_toPlay->y << " with a score of " << score << " in " << timer.elapsed() << " ms" << std::endl;
     //std::cout << "Minimax iterations : " << this->_debugView->getCnt() << ", nbr of sets : " << this->_debugView->addPerfMeasure(timer.elapsed(), nbStones) <<  std::endl;
     game.getBoard().setLastPlayed(this->_toPlay);
@@ -69,7 +69,7 @@ int AI::minimax(Game& game, GameStep* gamestep, int color, int depth, int alpha,
         this->_debugView->displayBoard(&gamestep->getBoard());
     int maxScore = (gamestep->getPlayingColor() == color) ? INFINITY : -INFINITY;
     // Fin de partie ?
-    if (this->isWinning(gamestep->getBoard()))
+    if (this->isWinning(gamestep->getBoard()) || this->isWinningPlayer(*gamestep))
     {
         if (this->_toPlay != 0)
             delete this->_toPlay;

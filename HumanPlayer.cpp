@@ -9,6 +9,7 @@ bool HumanPlayer::play(Game& game, bool (Game::*callback)(Coord&))
 {
     while (game.getBoard().getLastPlayed() == 0)
     {
+        usleep(1);
         game.catchEvents();
         if (game.getWindow().isClosed())
             return (true);

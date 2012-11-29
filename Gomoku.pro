@@ -3,9 +3,9 @@
 # -------------------------------------------------
 QT += svg \
     testlib
-QMAKE_CXXFLAGS += -pg
+#QMAKE_CXXFLAGS += -pg
 #QMAKE_CXXFLAGS_RELEASE += -pg
-QMAKE_LFLAGS += -pg
+#QMAKE_LFLAGS += -pg
 
 TARGET = Gomoku
 TEMPLATE = app

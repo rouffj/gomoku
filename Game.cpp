@@ -57,6 +57,7 @@ void Game::run()
                 time.restart();
                 while (!played)
                 {
+                    usleep(1);
                     this->_board->resetLastPlayed();
                     played = this->_players[this->_turn % 2]->play(*this, &Game::played);
                 }
